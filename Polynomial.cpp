@@ -16,12 +16,12 @@ const int MAX_NUMBER_OF_INPUT = 12;
 ===========================================*/
 struct ATerm
 {
-    int  Coefficient;
-    int  Exponent;
-    ATerm*  Next;
+    int Coefficient;
+    int Exponent;
+    ATerm *Next;
 };
 
-typedef  ATerm*  Polynomial;
+typedef ATerm *Polynomial;
 
 /*==========================================
             Function Prototypes
@@ -30,7 +30,7 @@ typedef  ATerm*  Polynomial;
 int getNumberOfPolynomials();
 bool checkTerms(string polyTerm);
 bool checkInput(string numberOfPolynomials);
-void printList (Polynomial current);
+void printList(Polynomial current);
 string getUserInput(int inputNumber);
 string removeSign(string userCoeff);
 string removeSpaces(string polyTerms);
@@ -39,7 +39,7 @@ bool isNumberOfInput(string userInput);
 string *getCoeffecient(string polyTerm);
 bool checkParsedData(string dataParsed);
 bool differentCharFound(string userInput);
-int getNumberOfTerms (string polyFunction);
+int getNumberOfTerms(string polyFunction);
 bool checkExponentsOrder(string polyFunction);
 string getExponent(string polyTerm, int startPosition);
 string *getTerms(string polyFunction, int numberOfTerms);
@@ -49,11 +49,11 @@ void termsToLinkedList(string polyFunction, Polynomial &head);
 Polynomial multiplyWithTerm(Polynomial headOne, Polynomial term);
 Polynomial multiplyPolynomial(Polynomial headOne, Polynomial headTwo);
 void addtoList(Polynomial &head, int inputCoeffecient, int inputExponent);
-void finalPrint(Polynomial* headArray, char sign, Polynomial typeOfFunction, int numberOfPolynomial);
+void finalPrint(Polynomial *headArray, char sign, Polynomial typeOfFunction, int numberOfPolynomial);
 
 int main()
 {
-    int  numberOfPolynomial;
+    int numberOfPolynomial;
     string *polyFunctions, userInput;
     Polynomial *headArray;
 
@@ -64,14 +64,13 @@ int main()
 
     numberOfPolynomial = getNumberOfPolynomials();
     headArray = nullptr;
-    headArray= new Polynomial[numberOfPolynomial];
+    headArray = new Polynomial[numberOfPolynomial];
 
     for (int i = 0; i < numberOfPolynomial; i++)
     {
         userInput = getUserInput(i);
         headArray[i] = nullptr;
         termsToLinkedList(userInput, headArray[i]);
-
     }
 
     for (int i = 0; i < numberOfPolynomial; i++)
@@ -89,8 +88,7 @@ int main()
     finalPrint(headArray, '+', sum, numberOfPolynomial);
     cout << endl;
     finalPrint(headArray, '*', product, numberOfPolynomial);
-cout << endl;
-
+    cout << endl;
 }
 
 /*=========================================================
@@ -129,14 +127,14 @@ bool checkInput(string numberOfPolynomials)
     for (int i = 0; i < numberOfPolynomials.length(); i++)
     {
         if (numberOfPolynomials[i] < '0' ||
-            numberOfPolynomials[i] > '9' )
+            numberOfPolynomials[i] > '9')
         {
             isCorrect = true;
         }
     }
 
-    if (numberOfPolynomials.length() == 0||
-        numberOfPolynomials.length() > 2 )
+    if (numberOfPolynomials.length() == 0 ||
+        numberOfPolynomials.length() > 2)
     {
         isCorrect = true;
     }
@@ -164,7 +162,7 @@ string getUserInput(int inputNumber)
     string userInput;
     bool isCorrect = false;
 
-    cout << " Input polynomial " << inputNumber + 1 << " -> " ;
+    cout << " Input polynomial " << inputNumber + 1 << " -> ";
     getline(cin, userInput);
     userInput = removeSpaces(userInput);
 
@@ -172,7 +170,7 @@ string getUserInput(int inputNumber)
     {
         isCorrect = checkTerms(userInput);
     }
-    while(!isCorrect)
+    while (!isCorrect)
     {
         cout << endl;
         cout << " Please Incorrect Polynomial Input" << endl;
@@ -197,8 +195,8 @@ string *getTerms(string polyFunction, int numberOfTerms)
     string *termsArray;
     int termPosition;
     termPosition = 0;
-    termsArray   = new string[numberOfTerms];
-    string term  = "";
+    termsArray = new string[numberOfTerms];
+    string term = "";
 
     for (int i = 0; i < polyFunction.length(); i++)
     {
@@ -260,7 +258,6 @@ void passToList(string polynomialTerm, Polynomial &head)
     inputExponent = stoi(finalInputExp);
 
     addtoList(head, inputCoeffecient, inputExponent);
-
 }
 
 /*======================================================
@@ -272,24 +269,25 @@ string *getCoeffecient(string polyTerm)
     string coeffecient = "";
     string *finalReturn;
     int place = 0;
-    bool noTerm = true;
+    bool noCoeffecient = true;
 
     finalReturn = new string[2];
 
-    while ( polyTerm[place] != 'x' &&
-            polyTerm[place] != 'X' &&
-            place != polyTerm.length())
+    while (polyTerm[place] != 'x' &&
+           polyTerm[place] != 'X' &&
+           place != polyTerm.length())
     {
         coeffecient += polyTerm[place];
         place++;
-        noTerm = false;
+        noCoeffecient = false;
     }
 
-    if (noTerm)
+    if (noCoeffecient)
     {
         coeffecient = "1";
     }
-    if(coeffecient == "-")
+
+    if (coeffecient == "-")
     {
         coeffecient = "-1";
     }
@@ -304,7 +302,7 @@ string *getCoeffecient(string polyTerm)
     Extracts the exponent from the term
 ========================================================*/
 
-string getExponent (string polyTerm, int startPosition)
+string getExponent(string polyTerm, int startPosition)
 {
     string exponent = "";
     int place = startPosition;
@@ -312,7 +310,7 @@ string getExponent (string polyTerm, int startPosition)
     bool noTerm = true;
 
     xPosition = (polyTerm[place] != 'x' && polyTerm[place] != 'X');
-
+    // 
     if (place < polyTerm.length() - 1)
     {
         place = place + 2;
@@ -371,7 +369,7 @@ void addtoList(Polynomial &head, int inputCoeffecient, int inputExponent)
             Prints the Linked List
 ===========================================*/
 
-void printList (Polynomial current)
+void printList(Polynomial current)
 {
     if (current)
     {
@@ -389,7 +387,6 @@ Polynomial addition(Polynomial headOne, Polynomial headTwo)
     finalSum = nullptr;
     currentOne = headOne;
     currentTwo = headTwo;
-
 
     while ((currentOne != nullptr) && (currentTwo != nullptr))
     {
@@ -448,7 +445,7 @@ Polynomial multiplyWithTerm(Polynomial headOne, Polynomial term)
     while (current != nullptr)
     {
         productCoeffcient = term->Coefficient * current->Coefficient;
-        productExponent = term->Exponent +  current->Exponent;
+        productExponent = term->Exponent + current->Exponent;
 
         addtoList(finalProduct, productCoeffcient, productExponent);
 
@@ -490,7 +487,8 @@ int getNumberOfInput(string userInput)
     int userInputToInt;
     while (isNumberOfInput(userInput))
     {
-        cout << "Incorrect Input!!! " << endl << endl;
+        cout << "Incorrect Input!!! " << endl
+             << endl;
         cout << "Please Enter the number of polynomials: ";
         getline(cin, userInput);
     }
@@ -546,21 +544,21 @@ bool differentCharFound(string userInput)
 
     for (int i = 0; i < userInput.length(); i++)
     {
-        if ((userInput[i]  < '0' || userInput[i]  > '9') &&
+        if ((userInput[i] < '0' || userInput[i] > '9') &&
             userInput[i] != 'x' &&
             userInput[i] != 'X' &&
             userInput[i] != '^' &&
             userInput[i] != '+' &&
             userInput[i] != '-')
-            {
-                isDiffferentChar = true;
-            }
+        {
+            isDiffferentChar = true;
+        }
     }
 
     return isDiffferentChar;
 }
 
-int getNumberOfTerms (string polyFunction)
+int getNumberOfTerms(string polyFunction)
 {
     int countt = 1;
 
@@ -571,7 +569,7 @@ int getNumberOfTerms (string polyFunction)
             countt++;
         }
         else if (polyFunction[i] == '-' &&
-                polyFunction[i - 1] != '^' && i != 0)
+                 polyFunction[i - 1] != '^' && i != 0)
         {
             countt++;
         }
@@ -599,7 +597,8 @@ bool checkTerms(string polyFunction)
     isExponentCorrect = true;
     karatFound = true;
     correctOrder = true;
-    if (polyFunction[0] == '+' )
+
+    if (polyFunction[0] == '+')
     {
         isCoeffecientCorrect = false;
     }
@@ -611,11 +610,12 @@ bool checkTerms(string polyFunction)
             isCoeffecientCorrect = false;
         }
     }
-    for (int i = 0; (i < numberOfTerms) && isCoeffecientCorrect && isExponentCorrect && karatFound ; i++)
+
+    for (int i = 0; (i < numberOfTerms) && isCoeffecientCorrect && isExponentCorrect && karatFound; i++)
     {
         coeffReturn = getCoeffecient(termsArray[i]);
         coeffecient = coeffReturn[0];
-        startPos =  stoi(coeffReturn[1]);
+        startPos = stoi(coeffReturn[1]);
         exponent = getExponent(termsArray[i], startPos);
 
         isCoeffecientCorrect = checkParsedData(coeffecient);
@@ -624,12 +624,12 @@ bool checkTerms(string polyFunction)
         if (isExponentCorrect)
         {
             if (stoi(exponent) > 1 || (stoi(exponent) == 1 && (startPos + 2) == termsArray[i].length()))
+            {
+                if (polyFunction[startPos + 1] != '^')
                 {
-                    if (polyFunction[startPos + 1] != '^')
-                    {
-                        karatFound = false;
-                    }
+                    karatFound = false;
                 }
+            }
         }
     }
     if (isCoeffecientCorrect && isExponentCorrect && karatFound)
@@ -654,7 +654,8 @@ bool checkParsedData(string dataParsed)
     {
         dataCheck = false;
     }
-    if(dataParsed[0] == '-' && dataParsed.length() == 1)
+
+    if (dataParsed[0] == '-' && dataParsed.length() == 1)
     {
         dataCheck = false;
     }
@@ -699,7 +700,7 @@ bool checkExponentsOrder(string polyFunction)
     bool correctOrder;
 
     numberOfTerms = getNumberOfTerms(polyFunction);
-    exponentArray = new int [numberOfTerms];
+    exponentArray = new int[numberOfTerms];
     termsArray = getTerms(polyFunction, numberOfTerms);
     correctOrder = true;
 
@@ -707,7 +708,7 @@ bool checkExponentsOrder(string polyFunction)
     {
         coeffecientArray = getCoeffecient(termsArray[i]);
         startPos = stoi(coeffecientArray[1]);
-        exponent= getExponent(termsArray[i], startPos);
+        exponent = getExponent(termsArray[i], startPos);
         exponentArray[i] = stoi(exponent);
     }
 
@@ -759,7 +760,7 @@ string printTerm(Polynomial term)
         if (term->Coefficient != 1 &&
             term->Exponent == 1)
         {
-            finalStatement = to_string(term->Coefficient) + "x" ;
+            finalStatement = to_string(term->Coefficient) + "x";
         }
         if (term->Coefficient == -1 &&
             term->Exponent == 1)
@@ -776,7 +777,7 @@ string printTerm(Polynomial term)
     return finalStatement;
 }
 
-void finalPrint(Polynomial* headArray, char sign, Polynomial typeOfFunction, int numberOfPolynomial)
+void finalPrint(Polynomial *headArray, char sign, Polynomial typeOfFunction, int numberOfPolynomial)
 {
     Polynomial head;
     bool numberOfZeros = true;
@@ -796,7 +797,7 @@ void finalPrint(Polynomial* headArray, char sign, Polynomial typeOfFunction, int
     }
 
     cout << name << " = ";
-    for ( int i = 0; i < numberOfPolynomial; i++)
+    for (int i = 0; i < numberOfPolynomial; i++)
     {
         head = headArray[i];
         cout << "(";
@@ -818,7 +819,9 @@ void finalPrint(Polynomial* headArray, char sign, Polynomial typeOfFunction, int
             cout << " " << sign << " ";
     }
 
-    cout << endl<<setw(name.length()) << " " << " = ";
+    cout << endl
+         << setw(name.length()) << " "
+         << " = ";
     head = typeOfFunction;
     while (head)
     {
